@@ -50,19 +50,25 @@ Follow these steps to install Apache Airflow:
     ```
 
 
-8. **Start the web server**: This starts the Airflow web interface.
+8. **Create Admin User account**: Use following command to create a user with admin previlidges.
+    ```bash
+    airflow users create --username admin --firstname Admin --lastname User --role Admin --email admin@example.com
+    ```
+
+9. **Start the web server**: This starts the Airflow web interface.
     ```bash
     airflow webserver --port 8080
     ```
 
-9. **Start the scheduler**: In a new terminal, start the Airflow scheduler.
+
+10. **Start the scheduler**: In a new terminal, start the Airflow scheduler.
     ```bash
     airflow scheduler
     ```
 
-Now, you should be able to access the Airflow web interface at [http://localhost:8080](http://localhost:8080). From there, you can start defining your workflows as DAGs.
+Now, you should be able to access the Airflow web interface at [http://localhost:8080](http://localhost:8080). Use credentials created in step 8 to login. From there, you can start defining your workflows as DAGs.
 
-10. **Access airlow ui**: If you need to connect to a remote Airflow instance from your local machine, you can do so once the server is up and running. This involves forwarding your local machine's port 8080 to the remote server's port. After setting up this connection, you can access the Airflow user interface by navigating to localhost:8080 in your web browser.
+11. **Access airlow ui**: If you need to connect to a remote Airflow instance from your local machine, you can do so once the server is up and running. This involves forwarding your local machine's port 8080 to the remote server's port. After setting up this connection, you can access the Airflow user interface by navigating to localhost:8080 in your web browser.
     ```bash
     ssh -L 8080:localhost:8080 username@ipaddress
     ```
