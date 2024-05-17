@@ -25,7 +25,7 @@ Follow these steps to install Apache Airflow:
     airflow db init
     ```
 
-5. **Create MS SQLServer Database:**: If SqlServer was already installed create a new DB or ignore this step, In such case SQLite database can be used to run Airflow for development purpose as it does not require any database server (the database is stored in a local file). There are many limitations of using the SQLite database (for example it only works with Sequential Executor) and it should NEVER be used for production. :
+5. **Create MS SQLServer Database:**: If SqlServer was already installed create a new Database else ignore this step, In such case SQLite database can be used to run Airflow for development purpose as it does not require any database server (the database is stored in a local file). There are many limitations of using the SQLite database (for example it only works with Sequential Executor) and it should NEVER be used for production. :
     ```sql
     CREATE DATABASE airflow_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -39,10 +39,10 @@ Follow these steps to install Apache Airflow:
     nano ~/airflow/airflow.cfg
     ```
 
-7. **Update airflow.cfg:**: Update the [core] section to use LocalExecutor, edit the dags folder to the proper location and configure the connection to MS SQL Server (ignore MS SQL Server configuration if you are using sqllite):
+7. **Update airflow.cfg:**: Update the [core] section to use 'LocalExecutor' for MS SQL SERVER  else use 'SequentialExecutor' , edit the dags folder to the proper location and configure the connection to MS SQL Server (ignore MS SQL Server configuration if you are using sqllite):
     ```ini
     [core]
-    executor = LocalExecutor
+    executor = <RequiredExecutor>
 
     dags_folder = /path/to/your/dags
     
