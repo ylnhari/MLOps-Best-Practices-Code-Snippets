@@ -8,9 +8,11 @@ Follow these steps to install Apache Airflow:
     source airflow-env/bin/activate
     ```
 
-2. **Install Airflow**: Install Airflow with necessary extras like postgres and celery.
+2. **Install Airflow**: Install Airflow with necessary extras like mssqlserver.
     ```bash
-    pip install apache-airflow[postgres,celery]
+    pip install apache-airflow[mssql]
+    pip install pyodbc
+    pip install apache-airflow-providers-microsoft-mssql
     ```
 
 3. **Configure Airflow**: You need to set a few environment variables to configure the Airflow installation.
@@ -18,22 +20,52 @@ Follow these steps to install Apache Airflow:
     export AIRFLOW_HOME=~/airflow
     ```
 
-4. **Initialize the database**: Airflow uses a database to store metadata. By default, it uses SQLite, but for production use, you should use a more robust database like PostgreSQL.
+4. **Initialize the database**: Airflow uses a database to store metadata. By default, it uses SQLite, but for production use, you should use a more robust database like PostgreSQL/MSSQLServer.
     ```bash
     airflow db init
     ```
 
-5. **Start the web server**: This starts the Airflow web interface.
+5. **Create MS SQLServer Database:**: If SqlServer was already installed create a new DB or ignore this step, In such case SQLite database can be used to run Airflow for development purpose as it does not require any database server (the database is stored in a local file). There are many limitations of using the SQLite database (for example it only works with Sequential Executor) and it should NEVER be used for production. :
+    ```sql
+    CREATE DATABASE airflow_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+    CREATE USER 'airflow_user' IDENTIFIED BY 'airflow_pass';
+
+    GRANT ALL PRIVILEGES ON airflow_db.* TO 'airflow_user';
+    ```
+
+6. **Edit the airflow.cfg file:**: The airflow.cfg file should be located in the ~/airflow directory. Open the airflow.cfg file in an editor:
+    ```bash
+    nano ~/airflow/airflow.cfg
+    ```
+
+7. **Update airflow.cfg:**: Update the [core] section to use LocalExecutor, edit the dags folder to the proper location and configure the connection to MS SQL Server (ignore MS SQL Server configuration if you are using sqllite):
+    ```ini
+    [core]
+    executor = LocalExecutor
+
+    dags_folder = /path/to/your/dags
+    
+    sql_alchemy_conn = mssql+pyodbc://airflow_user:<YourStrong!Passw0rd>@localhost/airflow_db?driver=ODBC+Driver+17+for+SQL+Server
+    ```
+
+
+8. **Start the web server**: This starts the Airflow web interface.
     ```bash
     airflow webserver --port 8080
     ```
 
-6. **Start the scheduler**: In a new terminal, start the Airflow scheduler.
+9. **Start the scheduler**: In a new terminal, start the Airflow scheduler.
     ```bash
     airflow scheduler
     ```
 
 Now, you should be able to access the Airflow web interface at [http://localhost:8080](http://localhost:8080). From there, you can start defining your workflows as DAGs.
+
+10. **Access airlow ui**: If you need to connect to a remote Airflow instance from your local machine, you can do so once the server is up and running. This involves forwarding your local machine's port 8080 to the remote server's port. After setting up this connection, you can access the Airflow user interface by navigating to localhost:8080 in your web browser.
+    ```bash
+    ssh -L 8080:localhost:8080 username@ipaddress
+    ```
 
 Please note that this is a basic setup and there are many other considerations for a production deployment of Airflow, such as setting up redundancy for high availability, securing the Airflow web interface with SSL, and setting up monitoring and logging.
 
