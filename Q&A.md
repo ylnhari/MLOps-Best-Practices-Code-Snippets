@@ -1,13 +1,13 @@
 ### Question 1:
 **Can you describe your experience with GPU-based training and inference in machine learning? What frameworks and tools have you used, and what kind of improvements in performance did you observe?**
 
-**Answer : **
+**Answer ** : 
 The candidate should provide a detailed account of their experience with GPU-based training and inference. They should mention the specific frameworks and tools they've used, such as TensorFlow, PyTorch, CUDA, cuDNN, or others. They should also discuss the performance improvements they observed when using GPUs, such as faster training times or the ability to work with larger datasets. They might also mention any challenges they faced and how they overcame them.
 
 ### Question 2:
 **How to resolve latency issues in the deployment**
 
-**Answer : **
+**Answer ** : 
 Latency issues in machine learning and deep learning model deployments can arise due to various reasons. Here are some potential problems and their solutions:
 
 - **Model Complexity**: Complex models with many layers and parameters can take a long time to make predictions.
