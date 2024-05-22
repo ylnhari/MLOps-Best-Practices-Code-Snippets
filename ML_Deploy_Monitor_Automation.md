@@ -105,7 +105,7 @@ This guide provides step-by-step instructions to set up an environment for deplo
    ```
 3. **Open a browser and go to http://localhost:3000. Default login is admin/admin.**
 
-4.** Add Prometheus as a Data Source:** Go to Configuration > Data Sources > Add data source. Select Prometheus and enter the Prometheus server URL, typically http://prometheus-server.
+4. ** Add Prometheus as a Data Source:** Go to Configuration > Data Sources > Add data source. Select Prometheus and enter the Prometheus server URL, typically http://prometheus-server.
 
 5. **Create Dashboards:** Use the following Prometheus queries to create panels in your Grafana dashboard:
 
@@ -124,3 +124,6 @@ This guide provides step-by-step instructions to set up an environment for deplo
       ```prometheus
       rate(seldon_api_executor_server_requests_total[1m])
       ```
+
+## Ending Notes
+By following these steps, you will set up a comprehensive monitoring solution for your ML models deployed with Seldon on GKE, and visualize metrics like total requests, request duration, and request rate in Grafana. If you encounter any issues or need further customization, please refer to the respective documentation for GKE, Seldon Core, Prometheus, and Grafana.
