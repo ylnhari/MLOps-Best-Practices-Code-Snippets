@@ -91,3 +91,36 @@ This guide provides step-by-step instructions to set up an environment for deplo
    ```sh
    helm install prometheus prometheus-community/prometheus -f prometheus-values.yaml
    ```
+
+## Step 5: Set Up Grafana
+1. **Install Grafana using Helm:**
+
+   ```sh
+   helm install grafana grafana/grafana
+   ```
+   
+2. **Access Grafana:** Forward the Grafana port to your local machine:
+   ```sh
+   kubectl port-forward svc/grafana 3000:80
+   ```
+3. **Open a browser and go to http://localhost:3000. Default login is admin/admin.**
+
+4.** Add Prometheus as a Data Source:** Go to Configuration > Data Sources > Add data source. Select Prometheus and enter the Prometheus server URL, typically http://prometheus-server.
+
+5. **Create Dashboards:** Use the following Prometheus queries to create panels in your Grafana dashboard:
+
+   - Total Requests:
+
+      ```prometheus
+      sum(increase(seldon_api_executor_server_requests_total[1m]))
+      ```
+   - Request Duration (P50):
+
+      ```prometheus
+      histogram_quantile(0.5, sum(rate(seldon_api_executor_server_request_duration_seconds_bucket[5m])) by (le))
+      ```
+   - Request Rate:
+
+      ```prometheus
+      rate(seldon_api_executor_server_requests_total[1m])
+      ```
